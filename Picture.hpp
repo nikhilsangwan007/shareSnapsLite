@@ -28,8 +28,6 @@ public:
 	string getPictureLink();
 	int getLikes();
 	int getDislikes();
-
-	~Picture();
 };
 
 #endif //PICTURE_HPP

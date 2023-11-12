@@ -8,12 +8,14 @@
 
 using namespace std;
 
+class ProfileManager;
+
 class Person: public Observer {
 private:
 	string name;
 	string email;
 	unsigned int profileID;
-
+	friend class ProfileManager;
 public:
 	Person(){}
 	Person(string name, string email): name(name), email(email), profileID(0) {}

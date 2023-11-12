@@ -3,36 +3,20 @@
 #include <iostream>
 #include "ProfileManager.hpp"
 
-void ProfileManager::actionProfile(const unsigned int& profileID, const int& action)
+ProfileManager* ProfileManager::ProfileInstance = nullptr;
+
+void ProfileManager::followProfile(Person& user, Person& follower)
 {
-
-}
-
-unsigned int generateProfileID()
-{
-	// Initialize random seed
-    srand(std::time(0));
-
-    // Generate random number between 1 and 1000
-    int randomNumber = rand() % 1000 + 1;
-
-    return randomNumber;
-}
-
-void ProfileManager::followProfile(unsigned int& profileID, Person& user)
-{
-	if(customerDatabase.find(profileID) == customerDatabase.end())
+	if(customerDatabase.find(user.getProfileID()) == customerDatabase.end())
 	{
 		cout<<"User not Found!\n";
 	}
-
-	Person person = customerDatabase[profileID];
 	
-	if(followerList.find(person) != followerList.end())
+	if(this->followerList.find(user) != this->followerList.end())
 	{
-		for(Person follower: followerList[person])
+		for(Person& subscriber: this->followerList[user])
 		{
-			if(user.getProfileID() == follower.getProfileID())
+			if(subscriber.getProfileID() == follower.getProfileID())
 			{
 				cout<<"Already a follower!\n";
 				return;
@@ -40,16 +24,26 @@ void ProfileManager::followProfile(unsigned int& profileID, Person& user)
 		}
 	}
 
-	followerList[person].push_back(user);
+	this->followerList[user].push_back(follower);
+	cout<<"follower list size = "<<this->followerList.size()<<endl;
+	cout<<"Follower added successfully\n Follower list of user : "<<user.getProfileID()<<endl;
+
+	for(auto follow: this->followerList[user])
+	{
+		cout<<"Follower : "<<follow.getProfileID()<<endl;
+	}
 	return;
 }
 
 void ProfileManager::notifyFollowers(Person& user, const string& pictureLink)
 {
-	if(followerList.find(user) != followerList.end())
+	cout<<"notifying followers of user :"<<user.getProfileID()<<endl;
+	cout<<"follower list size = "<<this->followerList.size()<<endl;
+	if(this->followerList.find(user) != this->followerList.end())
 	{
-		for(Person follower: followerList[user])
+		for(Person& follower: this->followerList[user])
 		{
+			cout<<"sending notification to follower: "<<follower.getProfileID()<<endl;
 			follower.update(pictureLink, user.getProfileID());
 		}
 	}

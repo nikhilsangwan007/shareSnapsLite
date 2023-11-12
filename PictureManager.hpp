@@ -5,8 +5,8 @@
 #include<vector>
 
 #include "Picture.hpp"
-#include "ProfileManager.hpp"
 #include "Person.hpp"
+#include "ProfileManager.hpp"
 
 using namespace std;
 
@@ -15,8 +15,8 @@ class PictureManager
 private:
 	static PictureManager* picManagerInstance;
 	map<Person, vector<Picture>> userPictureDatabase;
-
-	PictureManager();
+	ProfileManager* profileManager;
+	PictureManager() {}
 public:
 	
 	static PictureManager* getPictureManagerInstance()
@@ -28,11 +28,9 @@ public:
 		return picManagerInstance;
 	}
 	
-	void uploadPicture(Person, Picture);
+	void uploadPicture(Person&, Picture&);
 	void deletePicture(Person&, Picture&);
 	void reactPicture(Picture&, bool);
 };
-
-PictureManager* PictureManager::picManagerInstance = nullptr;
 
 #endif //PICTURE_MANAGER_HPP

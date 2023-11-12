@@ -20,7 +20,16 @@ private:
 
 	ProfileManager() {}
 
-	unsigned int generateProfileID();
+	unsigned int generateProfileID()
+	{
+		// Initialize random seed
+	    srand(std::time(0));
+
+	    // Generate random number between 1 and 1000
+	    int randomNumber = rand() % 1000 + 1;
+
+	    return randomNumber;
+	}
 
 public:
 
@@ -28,17 +37,15 @@ public:
 	{
 		if(ProfileInstance == nullptr)
 		{
-			return new ProfileManager();
+			ProfileInstance = new ProfileManager();
 		}
 
 		return ProfileInstance;
 	}
 
-	void actionProfile(const unsigned int&, const int&);
-
 	void notifyFollowers(Person&, const string&);
 
-	void followProfile(unsigned int&, Person&);
+	void followProfile(Person&, Person&);
 
 	unsigned int createProfile(Person& user) override
 	{
@@ -62,9 +69,11 @@ public:
 			else
 			{
 				customerDatabase[tempID] = user;
+				user.profileID = tempID;
 			}
 		}while(isIDFound);
 
+		cout<<"User profile created successfully with profile id = "<<tempID<<endl;
 		return tempID;
 		
 	}
@@ -80,6 +89,5 @@ public:
 	}
 };
 
-ProfileManager* ProfileManager::ProfileInstance = nullptr;
 
 #endif //PROFILE_MANAGER_HPP
