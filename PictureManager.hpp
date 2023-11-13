@@ -23,7 +23,7 @@ public:
 	{
 		if(picManagerInstance == nullptr)
 		{
-			return new PictureManager();
+			picManagerInstance = new PictureManager();
 		}
 		return picManagerInstance;
 	}
